@@ -113,9 +113,7 @@ let multiSelection = new Set();
 let locked = false;
 
 /* ----------------- Data loading ----------------- */
-const sampleData = [
-  {category:"Spectroscopy – IR", question:"Beer–Lambert: $A=\\varepsilon l c$ or <math><mi>A</mi><mo>=</mo><mi>ε</mi><mi>l</mi><mi>c</mi></math>.", choices:["$\\alpha$","<math><mi>\\mu</mi></math>","dipole moment $\\mu$","index of refraction"], correctIndex:2, points:10, explanation:"IR selection rule: change in dipole moment."}
-];
+
 
 function normalizeQuestion(q, i){
   if(typeof q.category!== 'string' || typeof q.question!== 'string' || !Array.isArray(q.choices)){
@@ -550,6 +548,39 @@ skipBtn.addEventListener('click', skipQuestion);
 reviewBtn.addEventListener('click', ()=> reviewBox.classList.toggle('hidden'));
 restartBtn.addEventListener('click', ()=>{ screenResult.classList.add('hidden'); screenStart.classList.remove('hidden'); });
 fiftyBtn.addEventListener('click', apply5050);
+// === Bridge for the editor: expose get/set so "Save to quiz" works ===
+(function () {
+  if (window.quizAPI) return; // don't double-define
+
+  window.quizAPI = {
+    getBank() {
+      return allQuestions.map(q => ({
+        category: q.category,
+        question: q.question,
+        choices:  [...q.choices],
+        correctIndices: [...(q.correctIndices || [])],
+        points: typeof q.points === 'number' ? q.points : 10,
+        explanation: q.explanation || ''
+      }));
+    },
+    setBank(arr) {
+      try {
+        allQuestions = arr.map((q,i) => normalizeQuestion(q,i));
+      } catch (e) {
+        console.warn('normalizeQuestion failed; using raw array', e);
+        allQuestions = arr;
+      }
+      try {
+        renderCategories();
+        if (typeof syncAvailableUI === 'function') syncAvailableUI({ keepCustom:true });
+        if (typeof updateCatChip  === 'function') updateCatChip();
+      } catch (e) {
+        console.debug('UI refresh skipped:', e);
+      }
+      // Updated bank will be used on the next "Start Quiz".
+    }
+  };
+})();
 
 /* ----------------- Fun image animation ----------------- */
 function initFlaus(){
