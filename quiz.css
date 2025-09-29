@@ -75,7 +75,7 @@ h2{margin:0 0 12px; font-size: var(--step-2)}
 .row > *{margin:0}
 .row label{color:var(--muted)}
 select, input[type="number"]{
-  width:100%; background:#101018; color:var(--ink); border:2px solid #2a2a34; border-radius:10px; padding:12px 14px; outline:none;
+  width:80%; background:#101018; color:var(--ink); border:2px solid #2a2a34; border-radius:10px; padding:12px 14px; outline:none;
   min-height:44px; /* mobile tap target */
 }
 
