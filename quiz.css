@@ -1,5 +1,5 @@
 :root{
-  --bg:#0f0f12; --panel:#17171c; --ink:#e7e7ee; --muted:#a9a9b8; --accent:#69f0ae; --accent2:#7aa7ff; --danger:#ff5c7a;
+  --bg:#0f0f12; --panel:#17171cb6; --ink:#e7e7ee; --muted:#a9a9b8; --accent:#69f0ae; --accent2:#7aa7ff; --danger:#ff5c7a;
   --shadow:0 10px 30px rgba(0,0,0,.35);
   --anim-duration: 800ms;
   --anim-ease: cubic-bezier(.2,.8,.2,1);
@@ -27,23 +27,28 @@
 *{box-sizing:border-box}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%}
-body{
-  margin:0;
+body {
+  margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
   font-size: var(--step-0);
   line-height: 1.35;
-  background:
-    radial-gradient(1200px 800px at 80% -10%, #1b1b22, #0f0f12 65%),
-    linear-gradient(135deg, rgba(122,167,255,.10), rgba(105,240,174,.08));
-  color:var(--ink);
-  display:grid;
-  place-items:center;
+  background: url("crisp-paper-ruffles.png") repeat, radial-gradient(1200px 800px at 80% -10%, #48246c, #3f2b4c 65%), linear-gradient(135deg, rgba(177, 10, 223, 0.1), rgba(112, 16, 221, 0.08));
+    background-size: auto, auto, auto;
+  background-size: auto, cover, cover;
+  background-blend-mode: overlay, normal, normal;
+  color: var(--ink);
+  display: grid;
+  place-items: center;
   padding: clamp(12px, 2.5vw, 20px);
+    padding-top: clamp(12px, 2.5vw, 20px);
+    padding-right: clamp(12px, 2.5vw, 20px);
+    padding-left: clamp(12px, 2.5vw, 20px);
   padding-top: calc(clamp(12px, 2.5vw, 20px) + var(--safe-top));
   padding-left: calc(clamp(12px, 2.5vw, 20px) + var(--safe-left));
   padding-right: calc(clamp(12px, 2.5vw, 20px) + var(--safe-right));
   -webkit-tap-highlight-color: transparent;
 }
+
 .app{width:min(1100px,100%);}
 .card{background:var(--panel); border:2px solid #2a2a34; border-radius:var(--radius-lg); box-shadow:var(--shadow); }
 header{padding:18px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; background:#111118; border-bottom:2px solid #222230}
