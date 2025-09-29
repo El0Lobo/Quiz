@@ -1,9 +1,10 @@
 window.questions = [
+// Intermolecular Interactions
   {
     "category": "Intermolecular Interactions",
-    "question": "Which interactions are collectively referred to as van der Waals forces?",
+    "question": "Which interactions are collectively referred to as van der Waals (vdW) forces?",
     "choices": [
-      "Keesom, Debye, and London dispersion",
+      "Keesom (dipole–dipole), Debye (dipole–induced dipole), and London dispersion",
       "Hydrogen bonding, ion pairing, and π–π stacking",
       "Electrostatic double-layer and steric repulsion",
       "Covalent bonding and metallic bonding"
@@ -14,20 +15,15 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "London dispersion interaction energy between small molecules falls off approximately as…",
-    "choices": [
-      "<math display='inline'><mfrac><mn>1</mn><mi>r</mi></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>3</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>6</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>12</mn></msup></mfrac></math>"
-    ],
+    "question": "Assuming long-range behavior for small molecules, London dispersion interaction energy falls off approximately as…",
+    "choices": ["$1/r$", "$1/r^{3}$", "$1/r^{6}$", "$1/r^{12}$"],
     "correctIndex": 2,
     "points": 10,
-    "explanation": "London dispersion $\\propto r^{-6}$ at long range for small polarizable species."
+    "explanation": "London dispersion is asymptotically $\\propto r^{-6}$ for small polarizable species."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statements about molecular polarizability are true?",
+    "question": "Which statements about molecular polarizability $\\alpha$ are true?",
     "choices": [
       "It generally increases with atomic size and electron count",
       "It is enhanced by π-conjugation",
@@ -36,52 +32,37 @@ window.questions = [
     ],
     "correctIndices": [0,1,3],
     "points": 10,
-    "explanation": "Bigger, more diffuse electron clouds and delocalization increase $\\alpha$; dispersion strength grows roughly as $C_6\\propto \\alpha^2$."
+    "explanation": "More diffuse electron clouds and delocalization increase $\\alpha$; dispersion strength grows roughly as $C_6\\propto \\alpha^2$."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "The ion–dipole interaction scales as…",
-    "choices": [
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>2</mn></msup></mfrac></math> (orientation-averaged)",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>4</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><mi>r</mi></mfrac></math>",
-      "independent of distance"
-    ],
+    "question": "For **orientation-averaged** charge–dipole interactions at long range, the ion–dipole energy scales as…",
+    "choices": ["$1/r^{2}$", "$1/r^{4}$", "$1/r$", "independent of distance"],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Charge–dipole energy (averaged over thermal orientations) $\\propto r^{-2}$."
+    "explanation": "Thermally averaged charge–dipole energy is $\\propto r^{-2}$."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "The ion–induced dipole (charge–polarizable) interaction scales as…",
-    "choices": [
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>2</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>4</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>6</mn></msup></mfrac></math>",
-      "independent of polarizability"
-    ],
+    "question": "For a charge near an **isotropic polarizable** partner ($\\alpha$), the ion–induced dipole interaction scales as…",
+    "choices": ["$1/r^{2}$", "$1/r^{4}$", "$1/r^{6}$", "independent of $\\alpha$"],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Charge–induced dipole energy $\\propto \\alpha/r^{4}$."
+    "explanation": "Charge–induced dipole energy is $\\propto \\alpha\\,r^{-4}$."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Orientation-averaged dipole–dipole (Keesom) interactions scale as…",
-    "choices": [
-      "<math display='inline'><mfrac><mn>1</mn><mi>r</mi></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>3</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>6</mn></msup></mfrac></math>",
-      "exponentially with r"
-    ],
+    "question": "For **freely rotating** dipoles at thermal equilibrium (Keesom), the orientation-averaged dipole–dipole interaction scales as…",
+    "choices": ["$1/r$", "$1/r^{3}$", "$1/r^{6}$", "exponential in $r$"],
     "correctIndex": 2,
     "points": 10,
     "explanation": "Thermal averaging gives an $r^{-6}$ dependence for freely rotating dipoles."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which features strengthen a hydrogen bond?",
+    "question": "Which features strengthen a hydrogen bond (D–H···A)?",
     "choices": [
-      "Near-linearity of D–H···A (≈180°)",
+      "Near-linearity (D–H···A \\(\\approx\\) $180^{\\circ}$)",
       "Higher donor acidity and acceptor basicity",
       "Short H···A distance",
       "Substitution that removes all lone pairs from the acceptor"
@@ -92,7 +73,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Typical enthalpy scale for a single conventional hydrogen bond in solution is roughly…",
+    "question": "Typical **enthalpy** scale for a single conventional hydrogen bond in solution is roughly…",
     "choices": [
       "0.1–1 kJ·mol⁻¹",
       "5–30 kJ·mol⁻¹",
@@ -101,7 +82,7 @@ window.questions = [
     ],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Most H-bonds lie in the ~5–30 kJ·mol⁻¹ range; context dependent."
+    "explanation": "Most H-bonds lie in the ~5–30 kJ·mol⁻¹ range (context dependent)."
   },
   {
     "category": "Intermolecular Interactions",
@@ -114,20 +95,15 @@ window.questions = [
     ],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Electron exchange antisymmetry penalizes overlap of occupied orbitals, giving short-range repulsion."
+    "explanation": "Electron antisymmetry penalizes overlap of occupied orbitals → short-range repulsion."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "In the Lennard–Jones 12–6 potential $V(r)=4\\varepsilon\\big[(\\sigma/r)^{12}-(\\sigma/r)^6\\big]$, the minimum occurs at…",
-    "choices": [
-      "$r=\\sigma$",
-      "$r=2^{1/6}\\,\\sigma$",
-      "$r=2\\,\\sigma$",
-      "It has no minimum"
-    ],
+    "choices": ["$r=\\sigma$", "$r=2^{1/6}\\,\\sigma$", "$r=2\\,\\sigma$", "It has no minimum"],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Differentiating $V(r)$ shows the minimum at $r=2^{1/6}\\sigma$ with depth $-\\varepsilon$."
+    "explanation": "Differentiating $V(r)$ gives the minimum at $r=2^{1/6}\\sigma$ with depth $-\\varepsilon$."
   },
   {
     "category": "Intermolecular Interactions",
@@ -140,46 +116,41 @@ window.questions = [
     ],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Short-range overlap requires damping functions; pure $r^{-6}$ is a long-range asymptote."
+    "explanation": "Short-range overlap requires damping; pure $r^{-6}$ is a long-range asymptote."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "The London $C_6$ coefficient for a pair of species increases mainly with…",
-    "choices": [
-      "larger static polarizability",
-      "higher ionization energy only",
-      "smaller electron count",
-      "lower polarizability"
-    ],
+    "choices": ["larger static polarizability", "higher ionization energy only", "smaller electron count", "lower polarizability"],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Roughly, $C_6\\propto \\alpha^2 I$; bigger, more polarizable species have larger dispersion."
+    "explanation": "Roughly, $C_6\\propto \\alpha^2 I$; more polarizable species have larger dispersion."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which factors strengthen cation–π interactions?",
+    "question": "Which factors strengthen **cation–π** interactions?",
     "choices": [
       "Electron-rich aromatic rings",
       "Lower dielectric environment",
       "Bulky solvation shells tightly bound to the cation",
-      "Ring deactivation by strong –NO₂ groups"
+      "Ring deactivation by strong –NO$_2$ groups"
     ],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "Higher π electron density and weaker screening favor cation–π; strong deactivation and tight solvation weaken it."
+    "explanation": "Higher π electron density and weaker screening favor cation–π; deactivation/strong solvation weaken it."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Anion–π interactions are favored by…",
+    "question": "**Anion–π** interactions are favored by…",
     "choices": [
-      "electron-deficient π systems (positive quadrupole)",
+      "electron-deficient π systems (positive quadrupole above ring)",
       "strongly electron-rich rings",
       "always high-dielectric environments",
       "absence of substituent effects"
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Anion–π requires electron-poor rings (e.g., perfluoroarenes) that present a positive quadrupole above the ring."
+    "explanation": "Anion–π requires electron-poor rings (e.g., perfluoroarenes) presenting a positive quadrupole."
   },
   {
     "category": "Intermolecular Interactions",
@@ -187,12 +158,12 @@ window.questions = [
     "choices": [
       "Dispersion is a major contributor",
       "Electrostatic quadrupoles often favor offset (slipped) geometries",
-      "Eclipsed face-to-face is always the strongest arrangement",
+      "Perfect eclipsed sandwich is always strongest",
       "Substituents can tune stacking"
     ],
     "correctIndices": [0,1,3],
     "points": 10,
-    "explanation": "Offset stacking reduces electrostatic repulsion; dispersion and substituent effects are key."
+    "explanation": "Offset stacking relieves electrostatic repulsion; dispersion and substituent effects are key."
   },
   {
     "category": "Intermolecular Interactions",
@@ -210,15 +181,10 @@ window.questions = [
   {
     "category": "Intermolecular Interactions",
     "question": "Halogen-bond strength generally follows the trend…",
-    "choices": [
-      "F > Cl > Br > I",
-      "I > Br > Cl ≫ F",
-      "Cl ≈ I > Br ≫ F",
-      "independent of the halogen"
-    ],
+    "choices": ["F > Cl > Br > I", "I > Br > Cl \\(\\gg\\) F", "Cl ≈ I > Br \\(\\gg\\) F", "independent of the halogen"],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Heavier halogens have more polarizable σ-holes and form stronger halogen bonds (environment-dependent)."
+    "explanation": "Heavier halogens have more polarizable σ-holes and form stronger halogen bonds (environment dependent)."
   },
   {
     "category": "Intermolecular Interactions",
@@ -231,11 +197,11 @@ window.questions = [
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Like halogen bonds, σ-holes on chalcogens lead to directional Lewis-acidic interactions with bases."
+    "explanation": "Like halogen bonds, σ-holes on chalcogens lead to directional Lewis-acidic interactions."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "The hydrophobic effect in water is driven mostly by…",
+    "question": "The **hydrophobic effect** in water is driven mostly by…",
     "choices": [
       "entropy gain of released water upon aggregation of nonpolar solutes",
       "formation of covalent bonds between solutes",
@@ -244,63 +210,43 @@ window.questions = [
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Clustering reduces the surface of structured water, releasing it and increasing entropy."
+    "explanation": "Clustering reduces structured hydration, releasing water and increasing entropy."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "Which salts are most likely to ‘salt out’ hydrophobes (Hofmeister effect)?",
-    "choices": [
-      "Strong kosmotropes (e.g., SO₄²⁻ with small cations)",
-      "Strong chaotropes only",
-      "Any salt equally",
-      "Only organic salts"
-    ],
+    "choices": ["Strong kosmotropes (e.g., SO$_4^{2-}$ with small cations)", "Strong chaotropes only", "Any salt equally", "Only organic salts"],
     "correctIndex": 0,
     "points": 10,
     "explanation": "Kosmotropes strengthen water structure and promote salting-out."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Increasing the dielectric constant of the medium usually…",
-    "choices": [
-      "strengthens ion–ion attraction",
-      "weakens electrostatic interactions",
-      "has no effect on dipolar interactions",
-      "eliminates dispersion"
-    ],
+    "question": "Increasing the **dielectric constant** of the medium usually…",
+    "choices": ["strengthens ion–ion attraction", "weakens electrostatic interactions", "has no effect on dipolar interactions", "eliminates dispersion"],
     "correctIndex": 1,
     "points": 10,
     "explanation": "Electrostatic energies scale as $1/\\varepsilon$; higher $\\varepsilon$ screens charge-based interactions."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Decreasing ionic strength in solution generally…",
-    "choices": [
-      "shortens the Debye screening length",
-      "lengthens the Debye screening length",
-      "has no effect on double-layer screening",
-      "destroys dispersion forces"
-    ],
+    "question": "Decreasing **ionic strength** $I$ in solution generally…",
+    "choices": ["shortens the Debye screening length", "lengthens the Debye screening length", "has no effect on double-layer screening", "destroys dispersion forces"],
     "correctIndex": 1,
     "points": 10,
     "explanation": "Lower $I$ → larger $\\kappa^{-1}$ → longer-ranged electrostatic interactions."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which factors reduce contact ion-pair formation in polar solvents?",
-    "choices": [
-      "High dielectric constant",
-      "Strong solvation of ions",
-      "Low temperature always",
-      "Large counterions that are poorly solvated"
-    ],
+    "question": "Which factors reduce **contact ion-pair** formation in polar solvents?",
+    "choices": ["High dielectric constant", "Strong solvation of ions", "Low temperature always", "Large counterions that are poorly solvated"],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "High $\\varepsilon$ and strong solvation favor separated or solvent-shared pairs; large weakly solvated ions can still pair."
+    "explanation": "High $\\varepsilon$ and strong solvation favor separated/solvent-shared pairs."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "The Hamaker constant characterizes…",
+    "question": "The **Hamaker constant** characterizes…",
     "choices": [
       "strength of dispersion between macroscopic bodies",
       "electrochemical potential",
@@ -309,14 +255,14 @@ window.questions = [
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "$A_\\mathrm{H}$ sets vdW attraction between bodies across a medium (continuum description)."
+    "explanation": "$A_{\\mathrm H}$ sets vdW attraction between bodies across a medium (continuum description)."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "Lorentz–Berthelot combining rules (classical force fields) commonly use…",
     "choices": [
-      "Arithmetic mean for σ and geometric mean for ε",
-      "Geometric mean for σ and arithmetic mean for ε",
+      "Arithmetic mean for $\\sigma$ and geometric mean for $\\varepsilon$",
+      "Geometric mean for $\\sigma$ and arithmetic mean for $\\varepsilon$",
       "Both arithmetic means",
       "Both geometric means"
     ],
@@ -327,54 +273,39 @@ window.questions = [
   {
     "category": "Intermolecular Interactions",
     "question": "For the Lennard–Jones potential, the repulsive term proportional to $(\\sigma/r)^{12}$ represents…",
-    "choices": [
-      "dispersion",
-      "Pauli repulsion",
-      "induction",
-      "ionic attraction"
-    ],
+    "choices": ["dispersion", "Pauli repulsion", "induction", "ionic attraction"],
     "correctIndex": 1,
     "points": 10,
     "explanation": "The 12-power is an empirical short-range repulsion mimicking exchange repulsion."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which changes typically increase dispersion attractions between two organic molecules?",
+    "question": "Which changes typically **increase dispersion** attraction between two organic molecules?",
     "choices": [
       "Increasing conjugation length",
       "Introducing heavy atoms",
       "Switching to a very low-polarizability environment",
-      "Shorter intermolecular separation (not overlapping)"
+      "Shorter intermolecular separation (without orbital overlap)"
     ],
     "correctIndices": [0,1,3],
     "points": 10,
-    "explanation": "More electrons/conjugation and closer (non-overlapping) contact raise dispersion; environment affects net free energy via competition."
+    "explanation": "More electrons/conjugation and closer (non-overlapping) contact raise dispersion."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "Which is NOT a noncovalent interaction?",
-    "choices": [
-      "Hydrogen bonding",
-      "Cation–π attraction",
-      "Coordinate covalent metal–ligand bond",
-      "Halogen bonding"
-    ],
+    "choices": ["Hydrogen bonding", "Cation–π attraction", "Coordinate covalent metal–ligand bond", "Halogen bonding"],
     "correctIndex": 2,
     "points": 10,
-    "explanation": "Coordinate bonds are typically treated as covalent/semicovalent, not purely noncovalent."
+    "explanation": "Coordinate bonds are covalent/semicovalent, not purely noncovalent."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Dipole–induced dipole (Debye) interactions scale as…",
-    "choices": [
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>4</mn></msup></mfrac></math>",
-      "<math display='inline'><mfrac><mn>1</mn><msup><mi>r</mi><mn>6</mn></msup></mfrac></math>",
-      "independent of r",
-      "<math display='inline'><mfrac><mn>1</mn><mi>r</mi></mfrac></math>"
-    ],
+    "question": "For an **isotropic polarizable** partner and thermal averaging, dipole–induced dipole (Debye) interactions scale as…",
+    "choices": ["$1/r^{4}$", "$1/r^{6}$", "independent of $r$", "$1/r$"],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "For an isotropic polarizable partner and thermal averaging, induction tends to scale as $r^{-6}$."
+    "explanation": "Induction with orientation averaging tends to $\\propto r^{-6}$ for small molecules."
   },
   {
     "category": "Intermolecular Interactions",
@@ -387,11 +318,11 @@ window.questions = [
     ],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "They are ion pairs frequently stabilized by geometrically aligned H-bonds and local environment."
+    "explanation": "They are ion pairs frequently stabilized by aligned H-bonds and environment."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which factors generally strengthen anion recognition by a receptor cavity?",
+    "question": "Which factors generally strengthen **anion recognition** by a receptor cavity?",
     "choices": [
       "Positive electrostatic potential inside the cavity",
       "Directional H-bond donors oriented toward the anion",
@@ -400,11 +331,11 @@ window.questions = [
     ],
     "correctIndices": [0,1,3],
     "points": 10,
-    "explanation": "Electrostatics, directionality, and fit matter; low $\\varepsilon$ cavities often favor binding."
+    "explanation": "Electrostatics, directionality, and fit matter; low-$\\varepsilon$ cavities favor binding."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which trend usually increases hydrophobic aggregation in water?",
+    "question": "Which trend usually increases **hydrophobic aggregation** in water?",
     "choices": [
       "Raising temperature moderately",
       "Adding kosmotropic salts",
@@ -413,24 +344,19 @@ window.questions = [
     ],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "Moderate $T$ often enhances the entropy advantage; kosmotropes also promote salting-out."
+    "explanation": "Moderate $T$ often enhances the entropy advantage; kosmotropes promote salting-out."
   },
   {
     "category": "Intermolecular Interactions",
     "question": "Electrostatic potential energy for two point charges in a medium is proportional to…",
-    "choices": [
-      "<math display='inline'><mfrac><mrow><msub><mi>z</mi><mn>1</mn></msub><msub><mi>z</mi><mn>2</mn></msub></mrow><mrow><mi>ε</mi><mi>r</mi></mrow></mfrac></math>",
-      "<math display='inline'><mrow><mi>ε</mi><mi>r</mi></mrow></math>",
-      "<math display='inline'><mfrac><mi>ε</mi><mrow><msub><mi>z</mi><mn>1</mn></msub><msub><mi>z</mi><mn>2</mn></msub></mrow></mfrac></math>",
-      "independent of ε"
-    ],
+    "choices": ["$\\dfrac{z_1 z_2}{\\varepsilon r}$", "$\\varepsilon r$", "$\\dfrac{\\varepsilon}{z_1 z_2}$", "independent of $\\varepsilon$"],
     "correctIndex": 0,
     "points": 10,
     "explanation": "Coulombic energy $\\propto z_1 z_2/(\\varepsilon r)$."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statements about cooperative hydrogen bonding are correct?",
+    "question": "Which statements about **cooperative hydrogen bonding** are correct?",
     "choices": [
       "Networks of H-bonds can strengthen individual bonds",
       "Conformation can shift to maximize cooperativity",
@@ -443,7 +369,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Water near small hydrophobes is best described as…",
+    "question": "Water near small **hydrophobes** is best described as…",
     "choices": [
       "more ordered relative to bulk (lower entropy)",
       "less ordered (higher entropy)",
@@ -456,20 +382,15 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which interactions are primarily responsible for noble-gas dimer binding at low temperature?",
-    "choices": [
-      "Covalent bonding",
-      "London dispersion",
-      "Hydrogen bonding",
-      "Ionic bonding"
-    ],
+    "question": "Which interactions are primarily responsible for **noble-gas dimer** binding at low temperature?",
+    "choices": ["Covalent bonding", "London dispersion", "Hydrogen bonding", "Ionic bonding"],
     "correctIndex": 1,
     "points": 10,
-    "explanation": "Rare-gas dimers (e.g., Ar₂) are bound by dispersion."
+    "explanation": "Rare-gas dimers (e.g., Ar$_2$) are bound by dispersion."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which modifications typically increase cation–π binding to benzene in the gas phase?",
+    "question": "Which modifications typically increase **cation–π** binding to benzene in the gas phase?",
     "choices": [
       "Increasing cation charge",
       "Increasing ring electron density",
@@ -478,24 +399,19 @@ window.questions = [
     ],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "Higher charge and electron-rich π clouds strengthen the interaction; EWG substituents and distance reduce it."
+    "explanation": "Higher charge and electron-rich π clouds strengthen the interaction; EWGs and distance reduce it."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "In classical force fields, dispersion attraction is often represented by the term…",
-    "choices": [
-      "$+C_{12}/r^{12}$",
-      "$-C_6/r^6$",
-      "$+C_4/r^4$",
-      "a constant offset"
-    ],
+    "question": "In classical force fields, the **dispersion** attraction is often represented by…",
+    "choices": ["$+C_{12}/r^{12}$", "$-C_6/r^{6}$", "$+C_4/r^{4}$", "a constant offset"],
     "correctIndex": 1,
     "points": 10,
     "explanation": "The attractive tail is $-C_6/r^6$ (or the $(\\sigma/r)^6$ term in LJ)."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which pairs of functional groups commonly form strong hydrogen bonds?",
+    "question": "Which pairs of functional groups commonly form strong **hydrogen bonds**?",
     "choices": [
       "Carboxylic acid (donor) with carbonyl oxygen (acceptor)",
       "Amide N–H (donor) with carbonyl O (acceptor)",
@@ -508,7 +424,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statement about halogen bonds vs hydrogen bonds is most accurate?",
+    "question": "Which statement about **halogen vs hydrogen bonds** is most accurate?",
     "choices": [
       "Both are directional σ-hole interactions with a Lewis base",
       "Only hydrogen bonds are directional",
@@ -521,20 +437,15 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "In host–guest chemistry, what drives selectivity besides electrostatics?",
-    "choices": [
-      "Size/shape complementarity",
-      "Hydrogen bond patterns",
-      "Dispersion contact area",
-      "None of the above"
-    ],
+    "question": "In host–guest chemistry, what drives **selectivity** besides electrostatics?",
+    "choices": ["Size/shape complementarity", "Hydrogen-bond patterns", "Dispersion contact area", "None of the above"],
     "correctIndices": [0,1,2],
     "points": 10,
     "explanation": "Fit plus directional and dispersion interactions together determine selectivity."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statement about dispersion in water is correct?",
+    "question": "Which statement about **dispersion in water** is correct?",
     "choices": [
       "Dispersion does not exist in water",
       "Dispersion always dominates over hydrogen bonding",
@@ -543,37 +454,32 @@ window.questions = [
     ],
     "correctIndex": 2,
     "points": 10,
-    "explanation": "Dispersion contributes in any medium; in water its effect on free energy can be overshadowed by H-bonds and hydrophobicity."
+    "explanation": "Dispersion contributes in any medium; in water it is often overshadowed by H-bonds/hydrophobicity."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "For two neutral polar molecules at high temperature, which long-range interaction dominates?",
-    "choices": [
-      "Keesom (dipole–dipole, orientation-averaged)",
-      "Purely covalent",
-      "Ionic",
-      "Magnetic only"
-    ],
+    "question": "For two **neutral polar molecules** at high temperature, which long-range interaction is most characteristic?",
+    "choices": ["Keesom (dipole–dipole, orientation-averaged)", "Purely covalent", "Ionic", "Magnetic only"],
     "correctIndex": 0,
     "points": 10,
     "explanation": "Dipole–dipole (averaged) and dispersion both contribute; for strong dipoles, Keesom is significant."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which parameters in the Lennard–Jones model set contact distance and well depth?",
+    "question": "In the Lennard–Jones model, which parameters set **contact distance** and **well depth**?",
     "choices": [
-      "σ sets contact distance; ε sets well depth",
-      "ε sets distance; σ sets depth",
-      "Both σ and ε set only distance",
+      "$\\sigma$ sets distance; $\\varepsilon$ sets depth",
+      "$\\varepsilon$ sets distance; $\\sigma$ sets depth",
+      "Both set only distance",
       "Both set only depth"
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "σ controls the size scale; ε the attraction strength."
+    "explanation": "$\\sigma$ controls the size scale; $\\varepsilon$ the attraction strength."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statements about charge–transfer (CT) contributions are correct?",
+    "question": "Which statements about **charge–transfer (CT)** contributions are correct?",
     "choices": [
       "CT can contribute to halogen and hydrogen bonds",
       "CT is purely magnetic",
@@ -586,33 +492,23 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "The reduced second virial coefficient $B_2$ for a gas is negative when…",
-    "choices": [
-      "net attractions dominate",
-      "net repulsions dominate",
-      "there are no interactions",
-      "the gas is ideal"
-    ],
+    "question": "The reduced second virial coefficient $B_2$ for a gas is **negative** when…",
+    "choices": ["net attractions dominate", "net repulsions dominate", "there are no interactions", "the gas is ideal"],
     "correctIndex": 0,
     "points": 10,
     "explanation": "Negative $B_2$ indicates effective attractions (e.g., near condensation)."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which interaction typically has the longest range in condensed phases (for the same charge magnitude)?",
-    "choices": [
-      "Ion–ion Coulombic",
-      "Dispersion",
-      "Hydrogen bonding",
-      "Steric repulsion"
-    ],
+    "question": "Which interaction typically has the **longest range** in condensed phases (same charge magnitude)?",
+    "choices": ["Ion–ion Coulombic", "Dispersion", "Hydrogen bonding", "Steric repulsion"],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Coulombic terms decay most slowly; screening reduces but does not remove long-range nature."
+    "explanation": "Coulombic terms decay most slowly; screening reduces but does not remove long-range character."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which changes usually weaken hydrogen bonds in organic solvents?",
+    "question": "Which changes usually **weaken hydrogen bonds** in organic solvents?",
     "choices": [
       "Adding a strong H-bond-accepting cosolvent",
       "Increasing temperature",
@@ -621,16 +517,16 @@ window.questions = [
     ],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "Competitive solvation and thermal disruption reduce H-bond strength; sterics also matter."
+    "explanation": "Competitive solvation and thermal disruption reduce H-bond strength."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which pair shows predominantly dispersion-driven association?",
+    "question": "Which pair shows predominantly **dispersion-driven** association?",
     "choices": [
       "n-alkane with perfluoroalkane (segregates due to weak cross-dispersion)",
-      "two long n-alkanes",
-      "ionic liquid cation with anion",
-      "water with sodium chloride"
+      "Two long n-alkanes",
+      "Ionic liquid cation with anion",
+      "Water with sodium chloride"
     ],
     "correctIndex": 1,
     "points": 10,
@@ -638,7 +534,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statements about σ-hole depth are correct?",
+    "question": "Which statements about **σ-hole depth** are correct?",
     "choices": [
       "It increases with polarizability of the halogen",
       "Electron-withdrawing substituents on the halogen donor increase it",
@@ -651,20 +547,15 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which interactions are largely directional?",
-    "choices": [
-      "Hydrogen bonding",
-      "Halogen bonding",
-      "Dispersion",
-      "Cation–π"
-    ],
+    "question": "Which interactions are **largely directional**?",
+    "choices": ["Hydrogen bonding", "Halogen bonding", "Dispersion", "Cation–π"],
     "correctIndices": [0,1],
     "points": 10,
-    "explanation": "H-bonds and σ-hole interactions have preferred axes; dispersion is broadly non-directional; cation–π is less strictly directional."
+    "explanation": "H-bonds and σ-hole interactions have preferred axes; dispersion is broadly non-directional."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "A common reason π–π ‘sandwich’ geometry is less favored than offset stacking is…",
+    "question": "A common reason π–π **sandwich** geometry is less favored than offset stacking is…",
     "choices": [
       "increased repulsive electrostatics between ring quadrupoles",
       "absence of dispersion in the sandwich",
@@ -677,33 +568,28 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which factors typically stabilize ion pairs in low-dielectric media?",
-    "choices": [
-      "Lower ε",
-      "Tight counterion size match",
-      "Strong solvation by a polar cosolvent",
-      "Multiple secondary contacts (e.g., H-bonds)"
-    ],
+    "question": "Which factors typically **stabilize ion pairs** in low-dielectric media?",
+    "choices": ["Lower $\\varepsilon$", "Tight counterion size match", "Strong solvation by a polar cosolvent", "Multiple secondary contacts (e.g., H-bonds)"],
     "correctIndices": [0,1,3],
     "points": 10,
     "explanation": "Low $\\varepsilon$ and favorable packing/secondary interactions stabilize ion pairing; polar solvation opposes it."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which is a reasonable qualitative order of noncovalent interaction strengths (typical, in solution)?",
+    "question": "Which is a reasonable qualitative order of **noncovalent interaction strengths** (typical, in solution)?",
     "choices": [
-      "Ionic > hydrogen bond ≳ halogen bond > dispersion",
+      "Ionic > hydrogen bond \\(\\gtrsim\\) halogen bond > dispersion",
       "Dispersion > ionic > hydrogen bond > halogen bond",
       "Hydrogen bond > ionic > dispersion",
       "All are identical"
     ],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Very context dependent, but ionic is often strongest; specific H-/σ-hole bonds beat pure dispersion."
+    "explanation": "Very context-dependent, but ionic is often strongest; specific H-/σ-hole bonds beat pure dispersion."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Why are perfluoroalkyl chains poorly miscible with hydrocarbon chains?",
+    "question": "Why are **perfluoroalkyl** chains poorly miscible with hydrocarbon chains?",
     "choices": [
       "Cross-dispersion interactions are weaker than like–like dispersion",
       "Electrostatic repulsion between neutral chains",
@@ -716,7 +602,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "In water, the driving force for micelle formation of surfactants is mostly…",
+    "question": "In water, the driving force for **micelle formation** of surfactants is mostly…",
     "choices": [
       "entropy gain of water released from hydrophobic surfaces",
       "formation of covalent bonds among tails",
@@ -729,7 +615,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which statements about induction (polarization) are correct?",
+    "question": "Which statements about **induction (polarization)** are correct?",
     "choices": [
       "It depends on the polarizability of the partner",
       "It can be stabilized by alignment with an external field",
@@ -742,7 +628,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which change often increases π–π stacking between two arenes?",
+    "question": "Which change often **increases π–π stacking** between two arenes?",
     "choices": [
       "Increasing contact area (larger fused rings)",
       "Adding bulky groups that force separation",
@@ -755,102 +641,32 @@ window.questions = [
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which pair of interactions has the same asymptotic distance dependence (for small molecules)?",
-    "choices": [
-      "Keesom and London dispersion",
-      "Ion–dipole and ion–induced dipole",
-      "Hydrogen bond and Coulombic",
-      "Cation–π and Pauli repulsion"
-    ],
+    "question": "Which pair of interactions has the **same asymptotic distance dependence** (for small molecules)?",
+    "choices": ["Keesom and London dispersion", "Ion–dipole and ion–induced dipole", "Hydrogen bond and Coulombic", "Cation–π and Pauli repulsion"],
     "correctIndex": 0,
     "points": 10,
-    "explanation": "Both average to $\\sim r^{-6}$ (though with different constants/origin)."
+    "explanation": "Both average to $\\sim r^{-6}$ (with different origins)."
   },
   {
     "category": "Intermolecular Interactions",
-    "question": "Which environmental changes usually strengthen halogen bonding?",
+    "question": "Which environmental changes usually **strengthen halogen bonding**?",
     "choices": [
       "Electron-withdrawing groups on the halogen donor",
       "Using heavier halogens",
-      "Placing the complex in a very high dielectric cavity",
-      "Linear approach of the base along R–X extension"
+      "Placing the complex in a very high-dielectric cavity",
+      "Linear approach of the base along the R–X extension"
     ],
     "correctIndices": [0,1,3],
     "points": 10,
-    "explanation": "EWG deepen σ-holes; I > Br > Cl; alignment along the σ-hole axis maximizes interaction."
+    "explanation": "EWGs deepen σ-holes; I > Br > Cl; alignment along the σ-hole axis maximizes interaction."
   },
-  {
-    "category": "Intermolecular Interactions",
-    "question": "Which is a typical signature of strong H-bonding in IR spectra?",
-    "choices": [
-      "Red shift and band broadening of X–H stretch",
-      "Blue shift and strong narrowing of X–H stretch",
-      "Appearance of sharp overtones only",
-      "No change at all"
-    ],
-    "correctIndex": 0,
-    "points": 10,
-    "explanation": "H-bonding weakens X–H, lowering $\\nu$ and broadening due to inhomogeneity."
-  },
-  {
-    "category": "Intermolecular Interactions",
-    "question": "For a charge–quadrupole interaction (averaged over orientations), the distance dependence is steeper than…",
-    "choices": [
-      "1/r",
-      "1/r^2",
-      "1/r^3",
-      "It is identical to 1/r"
-    ],
-    "correctIndex": 2,
-    "points": 10,
-    "explanation": "Higher multipoles decay more steeply; charge–quadrupole falls off $\\sim 1/r^{3}$ (or steeper with averaging)."
-  },
-  {
-    "category": "Intermolecular Interactions",
-    "question": "Which solvent property tends to weaken cation–π interactions in solution?",
-    "choices": [
-      "High dielectric constant",
-      "Low dielectric constant",
-      "Low polarizability of the solvent",
-      "Hydrogen-bond donating ability only"
-    ],
-    "correctIndex": 0,
-    "points": 10,
-    "explanation": "High $\\varepsilon$ screens electrostatics and favors cation solvation, reducing effective cation–π binding."
-  },
-  {
-    "category": "Intermolecular Interactions",
-    "question": "Which description of steric (excluded volume) effects is most accurate?",
-    "choices": [
-      "Always attractive",
-      "Always repulsive at short range due to overlap prevention",
-      "Independent of molecular shape",
-      "Dominant only at infinite separation"
-    ],
-    "correctIndex": 1,
-    "points": 10,
-    "explanation": "Steric exclusion manifests as short-range repulsion (Pauli + geometric)."
-  },
-  {
-    "category": "Intermolecular Interactions",
-    "question": "The free energy of binding in solution reflects…",
-    "choices": [
-      "Enthalpy (specific interactions) only",
-      "Entropy (solvent + conformational) only",
-      "Both enthalpy and entropy, including desolvation",
-      "Only dispersion"
-    ],
-    "correctIndex": 2,
-    "points": 10,
-    "explanation": "$\\Delta G = \\Delta H - T\\,\\Delta S$ includes interaction enthalpies and solvent/conformational entropy changes."
-  },
+/* IR (12) */
 
-  /* IR (12) */
   {
     "category": "Spectroscopy – IR",
     "question": "A fundamental vibration is IR-active when there is a change in…",
     "choices": [
-      "molecular dipole moment $\\mu$ along the normal coordinate",
+      "molecular dipole moment $\\mu$ along the normal coordinate $Q$",
       "molecular polarizability $\\alpha$ only",
       "molecular mass only",
       "refractive index of the solvent"
@@ -865,7 +681,7 @@ window.questions = [
     "choices": [
       "C=O stretch (carbonyl)",
       "O–H stretch (alcohol)",
-      "C\\equiv C stretch (alkyne)",
+      "C≡C stretch (alkyne)",
       "C–H stretch (alkanes)"
     ],
     "correctIndices": [0],
@@ -900,7 +716,7 @@ window.questions = [
   },
   {
     "category": "Spectroscopy – IR",
-    "question": "Which wavenumber region best matches terminal alkyne C\\equivC stretch?",
+    "question": "Which wavenumber region best matches terminal alkyne C≡C stretch?",
     "choices": [
       "2100–2260 $\\mathrm{cm}^{-1}$",
       "3300–3600 $\\mathrm{cm}^{-1}$",
@@ -913,7 +729,7 @@ window.questions = [
   },
   {
     "category": "Spectroscopy – IR",
-    "question": "The mutual exclusion principle states that in a perfectly centrosymmetric molecule…",
+    "question": "The mutual exclusion principle states that in a perfectly centrosymmetric molecule (i.e., with an inversion center, $i$ symmetry)…",
     "choices": [
       "gerade (g) vibrations are IR-inactive and Raman-active",
       "ungerade (u) vibrations are Raman-inactive and IR-inactive",
@@ -939,7 +755,7 @@ window.questions = [
   },
   {
     "category": "Spectroscopy – IR",
-    "question": "In ATR-IR, the penetration depth $d_p$ of the evanescent wave…",
+    "question": "In ATR-IR, the penetration depth $d_p$ of the evanescent wave… (with $n_1$ = IRE index, $n_2$ = sample index, $\\theta$ = incidence angle)",
     "choices": [
       "increases with increasing wavelength $\\lambda$",
       "decreases with increasing $\\lambda$",
@@ -948,13 +764,13 @@ window.questions = [
     ],
     "correctIndices": [0],
     "points": 10,
-    "explanation": "$d_p\\propto \\lambda/(n_1\\sqrt{\\sin^2\\theta-(n_2/n_1)^2})$; longer $\\lambda$ gives deeper penetration."
+    "explanation": "$d_p\\propto \\lambda\\big/\\big(n_1\\sqrt{\\sin^2\\!\\theta-(n_2/n_1)^2}\\big)$; longer $\\lambda$ gives deeper penetration."
   },
   {
     "category": "Spectroscopy – IR",
     "question": "Which functional group typically gives a strong, sharp band at $\\approx\\,2250\\,\\mathrm{cm}^{-1}$?",
     "choices": [
-      "Nitrile C\\equiv N",
+      "Nitrile C≡N",
       "Amide C=O",
       "Aromatic C=C",
       "Ether C–O–C"
@@ -1003,7 +819,8 @@ window.questions = [
     "explanation": "Hydrogen-bond networks differ; exact profiles depend on concentration/solvent."
   },
 
-  /* NMR (16) */
+
+/* NMR (16) */
   {
     "category": "Spectroscopy – NMR",
     "question": "First-order multiplet analysis (n+1 rule) is valid when…",
@@ -1027,7 +844,7 @@ window.questions = [
   },
   {
     "category": "Spectroscopy – NMR",
-    "question": "Which statements about T₁ and T₂ are correct?",
+    "question": "Which statements about $T_1$ (spin–lattice) and $T_2$ (spin–spin) are correct?",
     "choices": [
       "$T_1$ is spin–lattice (longitudinal) relaxation",
       "$T_2$ is spin–spin (transverse) relaxation",
@@ -1099,7 +916,7 @@ window.questions = [
     "choices": ["¹³C", "¹⁵N", "³¹P", "¹²C"],
     "correctIndices": [0,1,2],
     "points": 10,
-    "explanation": "¹³C, ¹5N, ³¹P are NMR-active; ¹²C is spin-0."
+    "explanation": "¹³C, ¹⁵N, ³¹P are NMR-active; ¹²C is spin-0."
   },
   {
     "category": "Spectroscopy – NMR",
@@ -1492,8 +1309,7 @@ window.questions = [
   },
 
 
-
-
+// === Statistical Thermodynamics (40) ===
   {
     "category": "Statistical Thermodynamics",
     "question": "Boltzmann’s entropy formula is…",
@@ -2049,7 +1865,7 @@ window.questions = [
       "Low-$T$ heat capacity is controlled by these scale temperatures",
       "They are exactly equal for all solids"
     ],
-    "correctIndices": [0,1,3].slice(0,3),
+    "correctIndices": [0,1,2],
     "points": 10,
     "explanation": "$\\theta_D$ and $\\theta_E$ define onset scales; they are not generally equal."
   },
@@ -2275,10 +2091,7 @@ window.questions = [
     "explanation": "Product of independent mode partition functions with the $1/N!$ factor."
   },
 
-
-// --- Intermolecular & Surface Forces (Israelachvili) — 50 ---
-
-
+// === Intermolecular & Surface Forces (Israelachvili)  ===
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
     "question": "Classical DLVO theory includes which interactions?",
@@ -2359,16 +2172,16 @@ window.questions = [
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Linearized Poisson–Boltzmann (Debye–Hückel) is valid when surface potentials are roughly…",
+    "question": "Poisson–Boltzmann (‘Grahame’) relation between surface charge and potential for a 1:1 electrolyte reads…",
     "choices": [
-      "$\\lvert \\psi \\rvert \\lesssim 25\\,\\mathrm{mV}$ at room temperature",
-      "$\\lvert \\psi \\rvert \\gtrsim 250\\,\\mathrm{mV}$",
-      "any potential",
-      "only for multivalent electrolytes"
+      "$\\sigma = \\sqrt{8\\varepsilon kT n_0}\\;\\sinh\\!\\big(\\tfrac{e\\psi_0}{2kT}\\big)$",
+      "$\\sigma = \\varepsilon\\,\\psi_0$",
+      "$\\sigma = 2\\varepsilon kT n_0\\,\\psi_0$",
+      "$\\sigma = 0$ for any electrolyte"
     ],
     "correctIndices": [0],
     "points": 10,
-    "explanation": "Criterion $e\\lvert\\psi\\rvert \\ll kT$ (≈25.7 mV at 298 K)."
+    "explanation": "Exact PB (nonlinear) yields the hyperbolic sine relation for symmetric electrolytes."
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
@@ -2437,7 +2250,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Steric stabilization by polymer layers arises from… [Select all that apply]",
+    "question": "Steric stabilization by polymer layers arises from…",
     "choices": [
       "osmotic repulsion when brushes overlap",
       "elastic penalty to compress chains",
@@ -2528,7 +2341,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Contact angle hysteresis (advancing vs receding) can be caused by… [Select all that apply]",
+    "question": "Contact angle hysteresis (advancing vs receding) can be caused by…",
     "choices": [
       "surface roughness or chemical heterogeneity",
       "pinning at defects/contaminants",
@@ -2632,7 +2445,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Polymer-brush steric repulsion generally increases with… [Select all that apply]",
+    "question": "Polymer-brush steric repulsion generally increases with…",
     "choices": [
       "grafting density",
       "polymer molecular weight",
@@ -2801,7 +2614,7 @@ window.questions = [
   },
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Linear PB ‘Grahame’ relation between surface charge and potential for 1:1 electrolyte reads…",
+    "question": "Grahame relation (1:1 electrolyte) between surface charge and potential is…",
     "choices": [
       "$\\sigma = \\sqrt{8\\varepsilon kT n_0}\\;\\sinh\\!\\big(\\tfrac{e\\psi_0}{2kT}\\big)$",
       "$\\sigma = \\varepsilon\\,\\psi_0$",
@@ -2890,10 +2703,9 @@ window.questions = [
     "points": 10,
     "explanation": "DLVO = EDL + vdW only; others are non-DLVO forces."
   },
-
   {
     "category": "Intermolecular & Surface Forces (Israelachvili)",
-    "question": "Debye screening length $\\kappa^{-1}$ increases with… [Select all that apply]",
+    "question": "Debye screening length $\\kappa^{-1}$ increases with…",
     "choices": [
       "decreasing ionic strength",
       "increasing temperature",
@@ -3072,6 +2884,256 @@ window.questions = [
     "correctIndices": [0],
     "points": 10,
     "explanation": "Complete wetting: $\\gamma_{SV}-\\gamma_{SL}\\ge \\gamma_{LV}$, $\\theta=0$."
+  },
+
+// === Extra 18 questions (3 per category)
+
+  // ── Spectroscopy – IR (3) ───────────────────────────────────────────────
+  {
+    "category": "Spectroscopy – IR",
+    "question": "Assignments for peptide/protein IR bands: which are correct? [Select all that apply]",
+    "choices": [
+      "Amide I (~1600–1700 cm^{-1}) arises mainly from C=O stretching",
+      "Amide II (~1510–1580 cm^{-1}) involves N–H bending and C–N stretching",
+      "Amide A (~3300 cm^{-1}) is an N–H stretching band",
+      "Amide I is primarily an N–H bending mode"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Amide I is mostly C=O stretch; Amide II is N–H bend + C–N stretch; Amide A is N–H stretch near ~3300 cm^{-1}."
+  },
+  {
+    "category": "Spectroscopy – IR",
+    "question": "Gas-phase rovibrational spectra of heteronuclear diatomics typically show… [Select all that apply]",
+    "choices": [
+      "P and R branches with line spacing on the order of 2B",
+      "no Q branch for the fundamental (ΔJ = ±1 selection rule)",
+      "much less-resolved structure in condensed phases due to collisions/inhomogeneity",
+      "an obligatory, intense Q branch in all linear molecules"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "For fundamental vibrations in heteronuclear diatomics, ΔJ=±1 gives P/R branches; Q appears in some degenerate/bending cases, not generally."
+  },
+  {
+    "category": "Spectroscopy – IR",
+    "question": "Intrinsic IR band intensities scale primarily with…",
+    "choices": [
+      "the square of the dipole-moment derivative along the normal coordinate, (∂μ/∂Q)^2",
+      "the polarizability derivative (∂α/∂Q) only",
+      "sample thickness alone",
+      "the orientation of the transition moment only"
+    ],
+    "correctIndices": [0],
+    "points": 10,
+    "explanation": "IR intensity ∝ |∂μ/∂Q|^2. Polarizability derivative governs Raman. Thickness/orientation affect observed absorbance but not intrinsic line strength."
+  },
+
+  // ── Spectroscopy – NMR (3) ──────────────────────────────────────────────
+  {
+    "category": "Spectroscopy – NMR",
+    "question": "Karplus relationship for vicinal ³J_HH couplings: which statements are true? [Select all that apply]",
+    "choices": [
+      "³J_HH depends on the H–C–C–H dihedral angle",
+      "³J_HH is essentially independent of molecular conformation",
+      "J couplings are (to first order) field-independent when expressed in Hz",
+      "Increasing B0 always increases J (Hz)"
+    ],
+    "correctIndices": [0,2],
+    "points": 10,
+    "explanation": "Karplus links ³J to dihedral geometry; scalar J is a through-bond interaction and does not scale with field strength (in Hz)."
+  },
+  {
+    "category": "Spectroscopy – NMR",
+    "question": "D₂O exchange experiments typically show that… [Select all that apply]",
+    "choices": [
+      "exchangeable OH/NH protons can broaden, shift, or disappear upon D₂O addition",
+      "J-couplings to rapidly exchanging protons may collapse",
+      "non-exchangeable aliphatic/aromatic CH signals are largely unaffected",
+      "a new peak always appears exactly at 2.50 ppm"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Labile protons exchange with D₂O and may vanish or broaden; couplings to them can average out; non-labile CH protons persist. The 2.50 ppm figure is specific to residual DMSO-d6, not D₂O exchange."
+  },
+  {
+    "category": "Spectroscopy – NMR",
+    "question": "Proton equivalence: which statements are correct? [Select all that apply]",
+    "choices": [
+      "Enantiotopic protons are equivalent in an achiral solvent and show the same chemical shift",
+      "Diastereotopic protons can have different shifts and often form AB patterns",
+      "A chiral solvating agent can render enantiotopic protons nonequivalent",
+      "Enantiotopic protons are always magnetically nonequivalent in any medium"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Enantiotopic become nonequivalent only in a chiral environment; diastereotopic are generally nonequivalent even in achiral media."
+  },
+
+  // ── Spectroscopy – UV–Vis (3) ───────────────────────────────────────────
+  {
+    "category": "Spectroscopy – UV–Vis",
+    "question": "Stokes shift and emission: which are generally true? [Select all that apply]",
+    "choices": [
+      "Fluorescence maxima are typically red-shifted relative to absorption maxima",
+      "Solvent and vibrational relaxation contribute to the Stokes shift",
+      "Anti-Stokes emission dominates at room temperature for most dyes",
+      "Zero Stokes shift is universal for rigid chromophores"
+    ],
+    "correctIndices": [0,1],
+    "points": 10,
+    "explanation": "Relaxation prior to emission leads to lower-energy (longer-λ) fluorescence; anti-Stokes emission is usually weak at room T."
+  },
+  {
+    "category": "Spectroscopy – UV–Vis",
+    "question": "Inner-filter effects in fluorescence measurements… [Select all that apply]",
+    "choices": [
+      "cause underestimation of intensity at high absorbance due to attenuation of excitation/emission",
+      "can be mitigated by dilution or front-face geometry",
+      "increase the true quantum yield of the fluorophore",
+      "are identical to dynamic quenching"
+    ],
+    "correctIndices": [0,1],
+    "points": 10,
+    "explanation": "They are optical artifacts, not changes in photophysics; dilution/geometry reduce reabsorption and excitation loss."
+  },
+  {
+    "category": "Spectroscopy – UV–Vis",
+    "question": "An isosbestic point in a titration spectrum usually indicates… [Select all that apply]",
+    "choices": [
+      "interconversion of two dominant species with constant total concentration",
+      "that Beer–Lambert law holds and only two spectra are linearly combined",
+      "the presence of three or more equilibrating species",
+      "a wavelength where ε = 0 for both species"
+    ],
+    "correctIndices": [0,1],
+    "points": 10,
+    "explanation": "Clean isosbestic behavior implies a two-state equilibrium with constant total concentration and linear additivity of absorbances."
+  },
+
+  // ── Electron Microscopy (3) ─────────────────────────────────────────────
+  {
+    "category": "Electron Microscopy",
+    "question": "EELS (electron energy-loss spectroscopy) can… [Select all that apply]",
+    "choices": [
+      "identify elements via core-loss ionization edges",
+      "probe near-edge fine structure (ELNES) sensitive to bonding/coordination",
+      "require electron-transparent specimens for quantitative analysis",
+      "distinguish isotopes routinely via core-loss edge energies"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Core-loss edges give elemental ID; ELNES reports local chemistry; thin specimens are needed. Isotope shifts are usually too small to resolve."
+  },
+  {
+    "category": "Electron Microscopy",
+    "question": "In SEM, which detector/contrast statements are correct? [Select all that apply]",
+    "choices": [
+      "Everhart–Thornley detectors collect secondary electrons (topography)",
+      "Backscattered-electron detectors provide Z-contrast",
+      "Secondary electrons emphasize surface morphology",
+      "Transmitted electrons form the standard SEM image"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "SE → topography; BSE → composition/Z; transmitted electrons are used in STEM/TEM, not conventional SEM imaging."
+  },
+  {
+    "category": "Electron Microscopy",
+    "question": "Limiting factors for high-resolution TEM/STEM include… [Select all that apply]",
+    "choices": [
+      "electron wavelength (shorter at higher kV improves the information limit)",
+      "spherical aberration (Cs), improved by aberration correctors",
+      "specimen drift/vibration blurring high-frequency information",
+      "pixel size alone uniquely sets ultimate resolution"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Resolution depends on λ, aberrations, stability, dose, etc.; pixel size must sample but does not by itself guarantee true resolution."
+  },
+
+  // ── Statistical Thermodynamics (3) ──────────────────────────────────────
+  {
+    "category": "Statistical Thermodynamics",
+    "question": "In the grand canonical ensemble, which relations hold? [Select all that apply]",
+    "choices": [
+      "⟨N⟩ = \\(\\partial \\ln \\Xi / \\partial (\\beta\\mu)\\)_{T,V}",
+      "Var(N) = \\(\\partial^2 \\ln \\Xi / \\partial (\\beta\\mu)^2\\)_{T,V}",
+      "p = kT\\,(\\partial \\ln \\Xi / \\partial V)_{T,\\mu}",
+      "⟨E⟩ = -\\,\\partial \\ln Z / \\partial \\beta in the microcanonical ensemble"
+    ],
+    "correctIndices": [0,1,2],
+    "points": 10,
+    "explanation": "Grand potential relations: derivatives of lnΞ give particle number and its fluctuations; pressure emerges from V-derivatives at fixed T,μ."
+  },
+  {
+    "category": "Statistical Thermodynamics",
+    "question": "Canonical equation of state from the partition function:",
+    "choices": [
+      "p = kT\\,(\\partial \\ln Z / \\partial V)_{T,N}",
+      "p = -\\,(\\partial A/\\partial T)_{V,N}",
+      "p = U/V",
+      "p is independent of Z in the canonical ensemble"
+    ],
+    "correctIndices": [0],
+    "points": 10,
+    "explanation": "From A = -kT ln Z and p = - (∂A/∂V)_{T,N} ⇒ p = kT (∂ ln Z / ∂V)_{T,N}."
+  },
+  {
+    "category": "Statistical Thermodynamics",
+    "question": "Thermal de Broglie wavelength and classical limit: which are correct? [Select all that apply]",
+    "choices": [
+      "Λ = h/\\sqrt{2\\pi m kT}",
+      "The classical (MB) limit requires n\\,Λ^3 \\ll 1",
+      "Λ decreases with increasing temperature",
+      "Λ decreases with increasing particle mass"
+    ],
+    "correctIndices": [0,1,2,3],
+    "points": 10,
+    "explanation": "Λ sets the quantum length scale; dilute, high-T, heavy-mass conditions push systems toward classical MB behavior."
+  },
+
+  // ── Intermolecular & Surface Forces (Israelachvili) (3) ─────────────────
+  {
+    "category": "Intermolecular & Surface Forces (Israelachvili)",
+    "question": "Wetting on rough surfaces: which statements are correct? [Select all that apply]",
+    "choices": [
+      "Wenzel state amplifies intrinsic wettability (roughness lowers θ for hydrophilic, raises θ for hydrophobic)",
+      "Cassie–Baxter state involves a composite solid–air–liquid interface with trapped air",
+      "Roughness always makes surfaces more hydrophilic regardless of chemistry",
+      "For Wenzel, cos θ* = r cos θ (r > 1)"
+    ],
+    "correctIndices": [0,1,3],
+    "points": 10,
+    "explanation": "Wenzel amplifies; Cassie involves air pockets; the Wenzel relation is cosθ* = r cosθ. Roughness does not universally increase hydrophilicity."
+  },
+  {
+    "category": "Intermolecular & Surface Forces (Israelachvili)",
+    "question": "EDL interaction between oppositely charged surfaces…",
+    "choices": [
+      "is attractive and can produce strong adhesion when double layers overlap",
+      "is always repulsive",
+      "is independent of electrolyte concentration",
+      "cannot be described within PB/DLVO frameworks"
+    ],
+    "correctIndices": [0],
+    "points": 10,
+    "explanation": "Opposite charges attract; magnitude and range depend on ionic strength and regulation, and can be modeled within PB/DLVO (with caveats)."
+  },
+  {
+    "category": "Intermolecular & Surface Forces (Israelachvili)",
+    "question": "Disjoining pressure and film stability: which are correct? [Select all that apply]",
+    "choices": [
+      "Positive disjoining pressure (Π > 0) tends to resist further thinning (stabilizing)",
+      "Negative Π promotes thinning/dewetting",
+      "Π is unrelated to thin-film stability",
+      "Π equals capillary pressure in all cases"
+    ],
+    "correctIndices": [0,1],
+    "points": 10,
+    "explanation": "Sign and slope of Π(D) govern stability: Π > 0 resists thinning; Π < 0 favors collapse. Balance with capillarity determines equilibrium."
   }
+
+
 
 ];

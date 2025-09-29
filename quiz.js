@@ -1,30 +1,55 @@
+// ======================================================
+// Pepsi's Master Quiz — main script (no inline JS needed)
+// - gathers inline question sets (questions.js, Spectroscopy.js)
+// - injects MathJax
+// - runs the quiz app
+// ======================================================
 
-/*
-  =========================
-  EXTERNAL DATA LOADING
-  =========================
-  Provide one or more JSON files via the URL, e.g.
-
-    quiz.html?data=questions.json
-    quiz.html?data=core.json,advanced.json
-
-  Each file must contain an array of question objects with ONE of:
-    - correctIndex: number (single-correct)
-    - correctIndices: number[] (multi-correct)
-
-  Shape:
-    {
-      "category": "Quantum Chemistry",
-      "question": "Which statements about MP2 are true?",
-      "choices": ["Captures dynamic correlation","Variational","Same as CISD","Size-extensive for non-interacting systems"],
-      "correctIndices": [0,3],          // ← multi-answer
-      "points": 10,                      // optional (default 10)
-      "explanation": "MP2 includes some dynamic correlation; it is not variational."
-    }
-*/
-
-// ---------- Helpers ----------
+/* ----------------- Small utilities ----------------- */
 const $ = id => document.getElementById(id);
+const clamp = (x,min,max)=>Math.max(min,Math.min(max,x));
+const r1 = x => Math.round(x*10)/10; // round to 0.1
+const fmtPts = x => (Math.abs(x - Math.round(x)) < 1e-9 ? String(Math.round(x)) : x.toFixed(1));
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+// Markdown (inline) → HTML for **bold** / *italic*, ignoring $...$ TeX spans
+function mdInline(s){
+  const parts = String(s).split('$');
+  for (let i=0;i<parts.length;i+=2){
+    parts[i] = parts[i]
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/\*(.+?)\*/g, '<i>$1</i>');
+  }
+  return parts.join('$');
+}
+
+/* ----------------- MathJax injection ----------------- */
+(function injectMathJax(){
+  if (window.MathJax && document.getElementById('MathJax-script')) return;
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    svg: { fontCache: 'global' }
+  };
+  const s = document.createElement('script');
+  s.id = 'MathJax-script';
+  s.async = true;
+  s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js';
+  document.head.appendChild(s);
+})();
+function typeset(el){
+  if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(()=>{});
+}
+
+/* -------------- Gather inline question sets -------------- */
+// Expect your data files to define:
+//   window.questions   (first set)
+//   window.questions2  (second set)
+// Add more here if you create them.
+window.__QUIZ_SETS__ = [];
+window.__QUIZ_SET_NAMES__ = [];
+if (Array.isArray(window.questions))  { window.__QUIZ_SETS__.push(window.questions);  window.__QUIZ_SET_NAMES__.push('questions.js'); }
+
+/* ----------------- DOM refs ----------------- */
 const screenStart = $('screenStart');
 const screenQuiz  = $('screenQuiz');
 const screenResult= $('screenResult');
@@ -64,44 +89,33 @@ const reviewBtn   = $('reviewBtn');
 const restartBtn  = $('restartBtn');
 const reviewBox   = $('review');
 
-// Config: sources from URL (?data=a.json,b.json) or default
-function getSourcesFromQuery(){
-  const u = new URL(location.href);
-  const val = u.searchParams.get('data');
-  if(!val) return null;
-  return val.split(',').map(s=>s.trim()).filter(Boolean);
-}
-const CONFIG = { sources: getSourcesFromQuery() || ['questions.json'] };
+// Availability + quick picks
+const availableCountEl = $('availableCount');
+const btnAll  = $('btnAll');
+const btn25   = $('btn25');
+const btn50   = $('btn50');
+const btn100  = $('btn100');
 
-// Sample fallback (only used if fetch fails)
-const sampleData = [
-  {category:"Quantum Chemistry", question:"The variational principle ensures that…", choices:["the trial energy is always ≤ true ground-state energy","the trial energy is always ≥ true ground-state energy","the trial wavefunction is orthogonal to the ground state by construction","the expectation value of H is stationary for any trial function"], correctIndex:1, points:10, explanation:"Variational energies are upper bounds to the true ground-state energy."},
-  {category:"Spectroscopy", question:"Select all that apply to IR-active vibrations.", choices:["Change in dipole moment","Change in polarizability only","Totally symmetric modes in every molecule","Overtones are always forbidden"], correctIndices:[0], points:10, explanation:"IR activity requires a dipole change; polarizability change governs Raman, not IR."}
-];
-
-// ---------- State ----------
+/* ----------------- App state ----------------- */
 let allQuestions = [];
 let selectedQuestions = [];
 let selectionCategories = new Set();
 let orderMode = 'mixed';
-let idx = 0; // current question index
+let idx = 0;
 let points = 0;
 let total = 0;
-let lifelines = 3; // 3× 50/50 per run
-let history = []; // for review
+let maxPointsTotal = 0;
+let lifelines = 3;
+let history = [];
 let currentIsMulti = false;
-let checked = false; // whether current question has been checked
+let checked = false;
 let multiSelection = new Set();
+let locked = false;
 
-// ---------- Data loading & normalization ----------
-async function fetchArray(url){
-  const res = await fetch(url, {cache:'no-store'});
-  if(!res.ok) throw new Error(res.status+" "+res.statusText);
-  const data = await res.json();
-  if(Array.isArray(data)) return data; // array root
-  if(Array.isArray(data.questions)) return data.questions; // {questions:[...]}
-  throw new Error('JSON must be an array or {questions:[…]}');
-}
+/* ----------------- Data loading ----------------- */
+const sampleData = [
+  {category:"Spectroscopy – IR", question:"Beer–Lambert: $A=\\varepsilon l c$ or <math><mi>A</mi><mo>=</mo><mi>ε</mi><mi>l</mi><mi>c</mi></math>.", choices:["$\\alpha$","<math><mi>\\mu</mi></math>","dipole moment $\\mu$","index of refraction"], correctIndex:2, points:10, explanation:"IR selection rule: change in dipole moment."}
+];
 
 function normalizeQuestion(q, i){
   if(typeof q.category!== 'string' || typeof q.question!== 'string' || !Array.isArray(q.choices)){
@@ -124,37 +138,31 @@ function normalizeQuestion(q, i){
     choices: q.choices,
     correctIndices,
     points: typeof q.points==='number'? q.points : 10,
-    explanation: q.explanation||''
+    explanation: q.explanation||'',
+    _shuffled: false
   };
 }
 
 async function loadAllSources(){
-  // If inline JS sets exist, use them
+  // Prefer inline sets that were loaded before this script
   if (Array.isArray(window.__QUIZ_SETS__) && window.__QUIZ_SETS__.length > 0) {
     const merged = window.__QUIZ_SETS__.flat();
     allQuestions = merged.map(normalizeQuestion);
-    const names = Array.isArray(window.__QUIZ_SET_NAMES__) ? window.__QUIZ_SET_NAMES__.join(', ') : 'inline scripts';
+    const names = Array.isArray(window.__QUIZ_SET_NAMES__) && window.__QUIZ_SET_NAMES__.length
+      ? window.__QUIZ_SET_NAMES__.join(', ')
+      : 'inline scripts';
     sourceInfo.innerHTML = 'Source: <em>' + names + '</em>';
     return;
   }
-
-  // Otherwise, keep the original JSON fetch path
-  sourceInfo.innerHTML = 'Source: <em>'+CONFIG.sources.join(', ')+'</em>';
-  try{
-    const arrays = await Promise.all(CONFIG.sources.map(fetchArray));
-    const merged = arrays.flat();
-    allQuestions = merged.map(normalizeQuestion);
-  }catch(err){
-    console.warn('Falling back to sample data due to:', err);
-    allQuestions = sampleData.map(normalizeQuestion);
-    sourceInfo.innerHTML = 'Source: <em>embedded sample (fetch failed)</em>';
-  }
+  // Fallback
+  allQuestions = sampleData.map(normalizeQuestion);
+  sourceInfo.innerHTML = 'Source: <em>embedded sample</em>';
 }
 
+/* ----------------- Category UI ----------------- */
 function uniqueCategories(data){
   return [...new Set(data.map(q => q.category))].sort();
 }
-
 function renderCategories(){
   const cats = uniqueCategories(allQuestions);
   categoriesEl.innerHTML = '';
@@ -162,18 +170,17 @@ function renderCategories(){
     const id = 'cat_'+cat.replace(/[^A-Za-z0-9_]+/g,'_');
     const div = document.createElement('label');
     div.className = 'cat';
-    div.innerHTML = `<input type="checkbox" id="${id}" data-cat="${cat}" checked> <span>${cat}</span>`;
+    div.innerHTML = `<input type="checkbox" id="${id}" data-cat="${cat}" checked> <span>${mdInline(cat)}</span>`;
     categoriesEl.appendChild(div);
   });
   selectionCategories = new Set(cats);
   updateCatChip();
+  syncAvailableUI();
 }
-
 function updateCatChip(){
   const list = [...selectionCategories];
   categoryChip.textContent = list.length? `${list.length} cat${list.length>1?'egories':''} selected` : 'No categories selected';
 }
-
 function attachCategoryHandlers(){
   categoriesEl.addEventListener('change', (e)=>{
     const cb = e.target.closest('input[type="checkbox"]');
@@ -181,20 +188,34 @@ function attachCategoryHandlers(){
     const cat = cb.getAttribute('data-cat');
     if(cb.checked) selectionCategories.add(cat); else selectionCategories.delete(cat);
     updateCatChip();
+    syncAvailableUI();
   });
 }
 
+/* --------- Availability + quick picks --------- */
+function getAvailablePool() {
+  const chosen = [...selectionCategories];
+  return allQuestions.filter(q => chosen.includes(q.category));
+}
+function syncAvailableUI({keepCustom=false} = {}) {
+  const pool = getAvailablePool();
+  const count = pool.length;
+  availableCountEl.textContent = `${count} available`;
+  if (!keepCustom) numQuestions.value = count;
+  startBtn.disabled = (count === 0);
+}
+function setCountTo(n) { numQuestions.value = Math.min(n, getAvailablePool().length); }
+btnAll.addEventListener('click', () => setCountTo(getAvailablePool().length));
+btn25.addEventListener('click', () => setCountTo(25));
+btn50.addEventListener('click', () => setCountTo(50));
+btn100.addEventListener('click', () => setCountTo(100));
+
+/* ----------------- Build selection ----------------- */
 function setProgress(i, total){
-  const pct = Math.round((i/total)*100);
+  const pct = Math.round((i/Math.max(1,total))*100);
   bar.style.width = pct + '%';
   qposChip.textContent = `Question ${Math.min(i+1,total)}/${total}`;
 }
-
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
-  return arr;
-}
-
 function buildSelection(){
   const chosenCats = [...selectionCategories];
   let pool = allQuestions.filter(q => chosenCats.includes(q.category));
@@ -208,61 +229,130 @@ function buildSelection(){
     shuffle(pool);
   }
   const n = Math.min(parseInt(numQuestions.value||10,10), pool.length);
-  selectedQuestions = pool.slice(0, n).map(q => ({...q}));
+  selectedQuestions = pool.slice(0, n).map(q => ({
+    ...q,
+    choices: [...q.choices],
+    correctIndices: [...q.correctIndices],
+    _shuffled: false
+  }));
   total = selectedQuestions.length;
+  maxPointsTotal = selectedQuestions.reduce((s,q)=>s+q.points,0);
+  updateTotalPointsChip();
+}
+function updateTotalPointsChip(){
+  pointsChip.textContent = `${fmtPts(points)} / ${fmtPts(maxPointsTotal)} pts`;
 }
 
+/* ----------------- Game flow ----------------- */
 function startGame(){
   if(selectionCategories.size === 0){ alert('Pick at least one category.'); return; }
   buildSelection();
   if(total === 0){ alert('No questions available for the selected categories.'); return; }
-  points = 0; idx = 0; lifelines = 3; history = []; checked = false; multiSelection.clear();
+  points = 0; idx = 0; lifelines = 3; history = []; checked = false; multiSelection.clear(); locked = false;
   screenStart.classList.add('hidden');
   screenResult.classList.add('hidden');
   screenQuiz.classList.remove('hidden');
   lifesChip.textContent = `50/50 × ${lifelines}`;
   lifeCount.textContent = `× ${lifelines} left`;
-  pointsChip.textContent = `${points} pts`;
+  updateTotalPointsChip();
   renderQuestion();
 }
 
+function shuffleChoicesInPlace(q){
+  if (q._shuffled) return q;
+  const n = q.choices.length;
+  const order = [...Array(n).keys()];
+  shuffle(order);
+  const newChoices = order.map(i => q.choices[i]);
+  const corr = new Set(q.correctIndices);
+  const newCorr = [];
+  for (let j=0;j<n;j++){ if (corr.has(order[j])) newCorr.push(j); }
+  q.choices = newChoices;
+  q.correctIndices = newCorr;
+  q._shuffled = true;
+  return q;
+}
+
 function renderQuestion(){
-  const q = selectedQuestions[idx];
+  let q = selectedQuestions[idx];
+  q = shuffleChoicesInPlace(q);
+
   currentIsMulti = (q.correctIndices && q.correctIndices.length > 1);
-  checked = false; multiSelection.clear();
+  checked = false; multiSelection.clear(); locked = false;
+
   setProgress(idx, total);
   qnum.textContent = `Question ${idx+1} of ${total}`;
-  qtext.textContent = q.question + (currentIsMulti ? ' [Select all that apply]' : '');
+
+  const alreadyHasSATA = /\bselect all that apply\b/i.test(q.question);
+  qtext.innerHTML = mdInline(q.question) + (
+    currentIsMulti && !alreadyHasSATA
+      ? ' <span class="badge" style="margin-left:6px">[Select all that apply]</span>'
+      : ''
+  );
+
   sataNote.classList.toggle('hidden', !currentIsMulti);
   answers.innerHTML = '';
-  explain.classList.add('hidden'); explain.textContent = '';
+  explain.classList.add('hidden'); explain.innerHTML = '';
   nextBtn.disabled = true; nextBtn.textContent = currentIsMulti ? 'Check' : 'Next';
   catBadge.textContent = q.category;
   modeBadge.classList.toggle('hidden', !currentIsMulti);
-  ptsBadge.textContent = `+${q.points} pts`;
+  ptsBadge.textContent = `+0 pts`;
 
   const keys = ['1','2','3','4','5','6','7','8','9'];
   q.choices.forEach((choice, i)=>{
     const el = document.createElement('label');
     el.className = 'opt';
     const type = currentIsMulti ? 'checkbox' : 'radio';
-    el.innerHTML = `<input type="${type}" name="ans" value="${i}"><span class="key">${keys[i]||i+1}</span> <span>${choice}</span>`;
-    el.addEventListener('click', ()=> optionClicked(i));
+    el.innerHTML = `
+      <input type="${type}" name="ans" value="${i}">
+      <span class="key">${keys[i] || i+1}</span>
+      <span class="txt">${mdInline(choice)}</span>`;
     answers.appendChild(el);
   });
-  fiftyBtn.disabled = false;
+
+  answers.onclick = (e) => {
+    const opt = e.target.closest('.opt');
+    if (!opt) return;
+    const input = opt.querySelector('input');
+    if (!input || input.disabled) return;
+
+    if (currentIsMulti) {
+      input.checked = !input.checked;
+      input.dispatchEvent(new Event('change', {bubbles:true}));
+    } else {
+      if (!input.checked) input.checked = true;
+      if(!locked) checkSingle([...answers.querySelectorAll('.opt')].indexOf(opt));
+    }
+  };
+  answers.onchange = (e)=>{
+    if (!currentIsMulti) return;
+    const input = e.target.closest('input[type="checkbox"]');
+    if (!input || input.disabled) return;
+    const opt = input.closest('.opt');
+    const items = [...answers.querySelectorAll('.opt')];
+    const i = items.indexOf(opt);
+    if (i < 0) return;
+    if (input.checked) {
+      multiSelection.add(i); opt.classList.add('picked');
+    } else {
+      multiSelection.delete(i); opt.classList.remove('picked');
+    }
+    nextBtn.disabled = (multiSelection.size === 0);
+  };
+
+  fiftyBtn.disabled = currentIsMulti || lifelines <= 0;
+  fiftyBtn.title = currentIsMulti
+    ? 'Disabled for multiple-answer questions'
+    : (lifelines > 0 ? 'Eliminate two incorrect options (3 uses per run)' : 'No 50/50 left');
+
+  typeset(qtext);
+  typeset(answers);
 }
 
-let locked = false; // prevent double evaluation for single-choice
-
-function optionClicked(i){
-  if(currentIsMulti){
-    if(multiSelection.has(i)) multiSelection.delete(i); else multiSelection.add(i);
-    nextBtn.disabled = multiSelection.size === 0;
-  } else {
-    if(locked) return;
-    checkSingle(i);
-  }
+function disableCurrentInputs(){
+  answers.onclick = null;
+  answers.onchange = null;
+  answers.querySelectorAll('input').forEach(inp => inp.disabled = true);
 }
 
 function checkSingle(i){
@@ -274,13 +364,16 @@ function checkSingle(i){
     if(j === correct) opt.classList.add('correct');
     if(j === i && i !== correct) opt.classList.add('wrong');
   });
-  const isRight = i === correct;
-  if(isRight){ points += q.points; ptsBadge.textContent = `+${q.points} pts`; } else { ptsBadge.textContent = `+0 pts`; }
-  pointsChip.textContent = `${points} pts`;
+  const isRight = (i === correct);
+  const earned = isRight ? q.points : 0;
+  points += earned;
+  ptsBadge.textContent = `+${fmtPts(earned)} pts`;
+  updateTotalPointsChip();
   setProgress(idx+1, total);
-  if(q.explanation){ explain.textContent = q.explanation; explain.classList.remove('hidden'); }
+  if(q.explanation){ explain.innerHTML = mdInline(q.explanation); explain.classList.remove('hidden'); typeset(explain); }
   nextBtn.disabled = false;
-  history.push({ idx, category:q.category, question:q.question, choices:q.choices, correctIndices:q.correctIndices, picked:i, pointsEarned: isRight ? q.points : 0, explanation:q.explanation||'' });
+  disableCurrentInputs();
+  history.push({ idx, category:q.category, question:q.question, choices:q.choices, correctIndices:q.correctIndices, picked:i, pointsEarned: earned, explanation:q.explanation||'' });
 }
 
 function checkMulti(){
@@ -289,40 +382,57 @@ function checkMulti(){
   const q = selectedQuestions[idx];
   const correctSet = new Set(q.correctIndices);
   const pickedSet = new Set([...multiSelection]);
-  const isRight = (pickedSet.size === correctSet.size) && [...correctSet].every(v => pickedSet.has(v));
 
   const opts = [...answers.querySelectorAll('.opt')];
   opts.forEach((opt, j)=>{
-    if(correctSet.has(j)) opt.classList.add('correct');
-    if(pickedSet.has(j) && !correctSet.has(j)) opt.classList.add('wrong');
+    const picked = pickedSet.has(j);
+    const correct = correctSet.has(j);
+    if (picked && correct) opt.classList.add('correct');
+    else if (picked && !correct) opt.classList.add('wrong');
+    else if (!picked && correct) opt.classList.add('correct','missed');
   });
 
-  if(isRight){ points += q.points; ptsBadge.textContent = `+${q.points} pts`; } else { ptsBadge.textContent = `+0 pts`; }
-  pointsChip.textContent = `${points} pts`;
+  const c = correctSet.size;
+  const hits = [...pickedSet].filter(i => correctSet.has(i)).length;
+  const falsePos = [...pickedSet].filter(i => !correctSet.has(i)).length;
+  const share = q.points / c;
+  let earned = share * (hits - falsePos);
+  earned = clamp( r1(earned), 0, q.points );
+  points += earned;
+
+  ptsBadge.textContent = `+${fmtPts(earned)} pts`;
+  updateTotalPointsChip();
   setProgress(idx+1, total);
-  if(q.explanation){ explain.textContent = q.explanation; explain.classList.remove('hidden'); }
+
+  if(q.explanation){ explain.innerHTML = mdInline(q.explanation); explain.classList.remove('hidden'); typeset(explain); }
   nextBtn.disabled = false; nextBtn.textContent = 'Next';
-  history.push({ idx, category:q.category, question:q.question, choices:q.choices, correctIndices:q.correctIndices, picked:[...pickedSet], pointsEarned: isRight ? q.points : 0, explanation:q.explanation||'' });
+  disableCurrentInputs();
+
+  history.push({ idx, category:q.category, question:q.question, choices:q.choices, correctIndices:q.correctIndices, picked:[...pickedSet], pointsEarned: earned, explanation:q.explanation||'' });
 }
 
 function apply5050(){
-  if(lifelines <= 0) return;
+  if (currentIsMulti) return;
+  if (lifelines <= 0) return;
+
   const q = selectedQuestions[idx];
   const correctSet = new Set(q.correctIndices);
   const opts = [...answers.querySelectorAll('.opt')];
-  const wrongs = opts.map((el,i)=>({el,i})).filter(o=>!correctSet.has(o.i));
-  shuffle(wrongs);
-  if(currentIsMulti){
-    const removeCount = Math.max(1, Math.floor(wrongs.length/2));
-    wrongs.slice(0, removeCount).forEach(o=>o.el.classList.add('hidden'));
-  } else {
-    const toHide = wrongs.slice(0, Math.max(0, wrongs.length - 1));
-    toHide.forEach(o=>o.el.classList.add('hidden'));
-  }
+  const visibleWrongs = opts
+    .map((el,i)=>({el,i}))
+    .filter(o => !o.el.classList.contains('hidden') && !correctSet.has(o.i));
+
+  if (visibleWrongs.length === 0) return;
+
+  shuffle(visibleWrongs);
+  const toHideCount = Math.min(2, visibleWrongs.length);
+  visibleWrongs.slice(0, toHideCount).forEach(o => o.el.classList.add('hidden'));
+
   lifelines--;
   lifesChip.textContent = `50/50 × ${lifelines}`;
   lifeCount.textContent = `× ${lifelines} left`;
   fiftyBtn.disabled = true;
+  fiftyBtn.title = lifelines > 0 ? 'Eliminate two incorrect options (3 uses per run)' : 'No 50/50 left';
 }
 
 function nextQuestion(){
@@ -330,7 +440,6 @@ function nextQuestion(){
   idx++;
   if(idx >= total){ endGame(); } else { renderQuestion(); }
 }
-
 function skipQuestion(){
   if(checked) return;
   const q = selectedQuestions[idx];
@@ -342,8 +451,11 @@ function skipQuestion(){
 function endGame(){
   screenQuiz.classList.add('hidden');
   screenResult.classList.remove('hidden');
-  finalScore.textContent = `${points} pts`;
-  const correctCount = history.filter(h=>{
+
+  finalScore.textContent = `${fmtPts(points)} / ${fmtPts(maxPointsTotal)} pts`;
+  const pointsPct = maxPointsTotal ? Math.round((points / maxPointsTotal)*100) : 0;
+
+  const perfects = history.filter(h=>{
     if(Array.isArray(h.picked)){
       const setP = new Set(h.picked||[]);
       const setC = new Set(h.correctIndices||[]);
@@ -351,16 +463,16 @@ function endGame(){
     }
     return h.picked=== (h.correctIndices? h.correctIndices[0]: -1);
   }).length;
-  const acc = total? Math.round((correctCount/total)*100) : 0;
-  accuracy.textContent = `${acc}% correct`;
+
+  accuracy.textContent = `Score: ${pointsPct}% • Perfect: ${perfects}/${total}`;
   const cats = [...new Set(history.map(h=> selectedQuestions[h.idx]?.category || h.category))];
   catsPlayed.textContent = cats.join(' • ');
 
   let title = 'Well done!';
-  if(acc === 100) title = 'Absolute Unit! 🧪✨';
-  else if(acc >= 85) title = 'Distinction-level performance!';
-  else if(acc >= 70) title = 'Strong pass!';
-  else if(acc >= 50) title = 'Keep going — solid effort!';
+  if(pointsPct === 100) title = 'Absolute Unit! 🧪✨';
+  else if(pointsPct >= 85) title = 'Distinction-level performance!';
+  else if(pointsPct >= 70) title = 'Strong pass!';
+  else if(pointsPct >= 50) title = 'Keep going — solid effort!';
   else title = 'Good start — review & retry!';
   winTitle.textContent = title;
 
@@ -371,29 +483,41 @@ function endGame(){
     const q = selectedQuestions[h.idx] || h;
     const correctSet = new Set(q.correctIndices||[]);
     const pickedSet  = new Set(Array.isArray(h.picked)? h.picked : (h.picked==null? [] : [h.picked]));
-    let html = `<div class="tag">Q${n+1} • <b>${q.category}</b>${(q.correctIndices||[]).length>1? ' • multiple answers':''}</div>`;
-    html += `<div class="question" style="font-size:18px">${q.question}</div>`;
+    let html = `<div class="tag">Q${n+1} • <b>${q.category}</b>${(q.correctIndices||[]).length>1? ' • multiple answers':''} • Earned: ${fmtPts(h.pointsEarned)} / ${fmtPts(q.points)} pts</div>`;
+    html += `<div class="question" style="font-size:18px">${mdInline(q.question)}</div>`;
     html += '<div class="answers" style="margin-top:8px">';
     q.choices.forEach((c, i)=>{
-      const cls = correctSet.has(i) ? 'correct' : (pickedSet.has(i) && !correctSet.has(i) ? 'wrong' : '');
-      html += `<div class="opt ${cls}" style="cursor:default"><span class="key">${i+1}</span> <span>${c}</span></div>`;
+      const cls = correctSet.has(i) ? (pickedSet.has(i) ? 'correct' : 'correct missed')
+               : (pickedSet.has(i) ? 'wrong' : '');
+      html += `<div class="opt ${cls}" style="cursor:default"><span class="key">${i+1}</span> <span>${mdInline(c)}</span></div>`;
     });
     html += '</div>';
-    if(q.explanation){ html += `<div class="explain" style="margin-top:8px">${q.explanation}</div>`; }
+    if(q.explanation){ html += `<div class="explain" style="margin-top:8px">${mdInline(q.explanation)}</div>`; }
     wrap.innerHTML = html;
     frag.appendChild(wrap);
   });
   reviewBox.innerHTML = '';
   reviewBox.appendChild(frag);
+  typeset(reviewBox);
 }
 
-// Keyboard shortcuts
+/* ----------------- Keyboard & buttons ----------------- */
 window.addEventListener('keydown', (e)=>{
   if(screenQuiz.classList.contains('hidden')) return;
   const opts = [...answers.querySelectorAll('.opt')];
   if(/^[1-9]$/.test(e.key)){
     const i = parseInt(e.key,10)-1;
-    if(opts[i]) optionClicked(i);
+    if(opts[i]){
+      if(currentIsMulti){
+        const input = opts[i].querySelector('input[type="checkbox"]');
+        if (input && !input.disabled) {
+          input.checked = !input.checked;
+          input.dispatchEvent(new Event('change', {bubbles:true}));
+        }
+      } else {
+        if(!locked) checkSingle(i);
+      }
+    }
   } else if(e.key.toLowerCase()==='f'){
     if(!fiftyBtn.disabled && lifelines>0) apply5050();
   } else if(e.key.toLowerCase()==='n' || e.key === 'Enter'){
@@ -405,16 +529,17 @@ window.addEventListener('keydown', (e)=>{
   }
 });
 
-// Wire up controls
 selectAllBtn.addEventListener('click', ()=>{
   categoriesEl.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=true);
   selectionCategories = new Set(uniqueCategories(allQuestions));
   updateCatChip();
+  syncAvailableUI();
 });
 clearAllBtn.addEventListener('click', ()=>{
   categoriesEl.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.checked=false);
   selectionCategories.clear();
   updateCatChip();
+  syncAvailableUI();
 });
 orderSel.addEventListener('change', ()=>{ orderMode = orderSel.value; });
 startBtn.addEventListener('click', startGame);
@@ -424,13 +549,56 @@ nextBtn.addEventListener('click', ()=>{
 skipBtn.addEventListener('click', skipQuestion);
 reviewBtn.addEventListener('click', ()=> reviewBox.classList.toggle('hidden'));
 restartBtn.addEventListener('click', ()=>{ screenResult.classList.add('hidden'); screenStart.classList.remove('hidden'); });
+fiftyBtn.addEventListener('click', apply5050);
 
-// Init
+/* ----------------- Fun image animation ----------------- */
+function initFlaus(){
+  const img = $('flaus');
+  if(!img) return;
+
+  const animations = [
+    'anim-shake','anim-jump','anim-flip-x','anim-flip-y','anim-spin',
+    'anim-wobble','anim-bounce','anim-swing','anim-pulse','anim-rubber',
+    'anim-tada','anim-jello','anim-zoom'
+  ];
+  function randomizeDuration(){
+    const ms = Math.floor(600 + Math.random() * 500);
+    document.documentElement.style.setProperty('--anim-duration', ms + 'ms');
+  }
+  function playRandomAnimation(){
+    randomizeDuration();
+    const next = animations[Math.floor(Math.random() * animations.length)];
+    img.classList.add('animating');
+    animations.forEach(a => img.classList.remove(a));
+    void img.offsetWidth;
+    img.classList.add(next);
+  }
+  img.addEventListener('animationend', () => {
+    animations.forEach(a => img.classList.remove(a));
+    img.classList.remove('animating');
+  });
+  img.addEventListener('click', playRandomAnimation);
+  img.setAttribute('tabindex', '0');
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      playRandomAnimation();
+    }
+  });
+  setTimeout(()=> img.classList.add('anim-pulse'), 300);
+  img.addEventListener('animationend', (e) => {
+    if (e.animationName === 'pulse') img.classList.remove('anim-pulse');
+  });
+}
+
+/* ----------------- Init ----------------- */
 (async function init(){
   await loadAllSources();
   renderCategories();
   attachCategoryHandlers();
-  pointsChip.textContent = '0 pts';
+  pointsChip.textContent = '0 / 0 pts';
   qposChip.textContent = 'Question 0/0';
   lifesChip.textContent = '50/50 × 3';
+  syncAvailableUI();
+  initFlaus();
 })();
