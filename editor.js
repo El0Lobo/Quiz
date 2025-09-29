@@ -306,7 +306,7 @@ Aim for clear stems, plausible distractors, and include brief explanations.
 
       // Stats
       const shownPts = rows.reduce((s, {q}) => s + (q.points || 10), 0);
-      statEl.textContent = `${rows.length}/${bank.length} shown • Total points (shown): ${shownPts}`;
+      statEl.textContent = `${rows.length}/${bank.length} shown`;
 
       // Body
       tbody.innerHTML = "";
